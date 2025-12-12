@@ -1,0 +1,22 @@
+{
+  "name": "francis-kamau-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio website for Francis Kamau - Product Engineer & Systems Architect",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'Static site - no build required'",
+    "test": "echo 'Run manual tests per README checklist'"
+  },
+  "keywords": [
+    "portfolio",
+    "static-site",
+    "tailwindcss",
+    "netlify"
+  ],
+  "author": "Francis Kamau <francis.wainaina@strathmore.edu>",
+  "license": "MIT",
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

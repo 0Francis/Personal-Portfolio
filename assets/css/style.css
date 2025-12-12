@@ -42,3 +42,55 @@ body {
             width: 2px;
             background: #e5e7eb;
 }
+
+/* Typewriter effect for titles */
+.typewriter {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid #3b82f6;
+    white-space: nowrap;
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #3b82f6; }
+}
+
+/* Photo container with 3D perspective */
+.photo-container {
+    perspective: 800px;
+}
+
+/* Photo rotation animation */
+.photo-rotate {
+    animation: photo-float 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+}
+
+@keyframes photo-float {
+    0%, 100% {
+        transform: rotateY(-5deg) rotateX(2deg) translateY(0);
+    }
+    50% {
+        transform: rotateY(5deg) rotateX(-2deg) translateY(-10px);
+    }
+}
+
+/* Hover effect on photo - smooth 360 spin */
+.photo-container:hover .photo-rotate {
+    animation: photo-spin 1.5s ease-in-out;
+}
+
+@keyframes photo-spin {
+    0% {
+        transform: rotateY(0deg) scale(1);
+    }
+    50% {
+        transform: rotateY(180deg) scale(1.05);
+    }
+    100% {
+        transform: rotateY(360deg) scale(1);
+    }
+}

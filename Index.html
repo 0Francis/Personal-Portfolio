@@ -3,14 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Francis Kamau | Software Engineer & AI Enthusiast</title>
+    <title>Francis Kamau | Product Engineer & Full-Stack Developer</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Francis Kamau - Product Engineer, Full-Stack Developer & Clean Energy Innovator. Building impactful solutions with AI, IoT, and modern web technologies.">
+    <meta name="keywords" content="Francis Kamau, Product Engineer, Systems Architect, Software Developer, Clean Energy, BARQATA, Kenya">
+    <meta name="author" content="Francis Kamau">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Francis Kamau | Product Engineer & Full-Stack Developer">
+    <meta property="og:description" content="Building impactful solutions with AI, IoT, and modern web technologies. Co-founder of BARQATA.">
+    <meta property="og:image" content="assets/images/francis-kamau.jpg">
+    <meta property="og:url" content="https://francis-kamau.netlify.app">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Francis Kamau | Product Engineer">
+    <meta name="twitter:description" content="Building impactful solutions with AI, IoT, and modern web technologies.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍💻</text></svg>">
+    
+    <!-- Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
- </head>
+    
+    <!-- Scripts (deferred for performance) -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" defer></script>
+    
+    <!-- reCAPTCHA v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeC7SksAAAAAFWlhfvN7cjF3VkmFhLoQKE_ryM5" defer></script>
+</head>
 <body class="bg-gray-50 font-sans antialiased">
     <!-- Navigation -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
@@ -50,10 +77,10 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
-                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Hi, I'm <span class="gradient-text">Francis Kamau</span></h1>
-                    <h2 class="text-2xl md:text-3xl text-gray-600 mb-6">Software Engineer & AI Enthusiast</h2>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Hi, I'm <span class="gradient-text" id="name-text">Francis Kamau</span></h1>
+                    <h3 class="text-lg md:text-xl text-gray-600 mb-6" id="titles-text"><span class="typewriter"></span></h3>
                     <p class="text-gray-600 mb-8 max-w-lg">
-                        Passionate about leveraging technology, AI, and data to create impactful real-world solutions.
+                        Building impactful solutions at the intersection of AI, IoT, and clean energy for underserved communities in Kenya's ASAL regions.
                     </p>
                     <div class="flex space-x-4">
                         <a href="#contact" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">Get In Touch</a>
@@ -61,9 +88,9 @@
                     </div>
                 </div>
                 <div class="md:w-1/2 flex justify-center" data-aos="fade-left">
-                    <div class="relative">
-                        <div class="w-64 h-64 md:w-80 md:h-80 bg-blue-100 rounded-full flex items-center justify-center overflow-hidden">
-                            <img src="assets/Wainaina Francis Kamau.JPG" alt="Francis Kamau" class="w-full h-full object-cover">
+                    <div class="relative photo-container">
+                        <div class="w-64 h-64 md:w-80 md:h-80 bg-blue-100 rounded-full flex items-center justify-center overflow-hidden photo-rotate">
+                            <img src="assets/images/francis-kamau.jpg" alt="Francis Kamau - Product Engineer and Full-Stack Developer" class="w-full h-full object-cover">
                         </div>
                         <div class="absolute -bottom-4 -right-4 bg-white p-4 rounded-lg shadow-md">
                             <div class="flex items-center">
@@ -262,7 +289,7 @@
                 
                 <!-- Stawi Hub & Mwangaza AI -->
                 <div class="project-card bg-white rounded-lg overflow-hidden shadow-md border border-gray-100" data-aos="fade-up" data-aos-delay="200">
-                    <img src="assets/images/stawi hub.jpeg" alt="Stawi Hub & Mwangaza AI" class="w-full h-48 object-cover">
+                    <img src="assets/images/stawi-hub.jpg" alt="Stawi Hub & Mwangaza AI - Waste analysis chatbot using AWS Bedrock" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <div class="flex items-center mb-2">
                             <i data-feather="message-square" class="text-purple-500 mr-2"></i>
@@ -468,8 +495,7 @@
                         <ul class="list-disc pl-5 text-gray-600 space-y-1">
                             <li>Python Fundamentals & Essential Libraries</li>
                             <li>Advent of Cyber (2024)</li>
-                            <li>iOS App Design & Development (Ongoing)</li>
-                            <li>CCNA – Introduction to Networking (Ongoing)</li>
+                            <li>iOS App Design & Development</li>
                         </ul>
                     </div>
                     
@@ -480,10 +506,11 @@
                         </div>
                         <h3 class="text-xl font-semibold text-gray-800 mb-1">Memberships</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Strathmore Google Developer Group</span>
-                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Japanese Club</span>
+                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Strathmore Computer Engineering Student Association (SCESA)</span>
+                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Strathmore Business Club (SBC)</span>
+                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Strathmore AWS Cloud Club</span>
                             <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">AWS Kenya User Group</span>
-                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Strathmore Choral Club</span>
+                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Strathmore Japanese Club</span>
                         </div>
                     </div>
                 </div>
@@ -526,7 +553,7 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-gray-800">LinkedIn</h4>
-                                <a href="http://www.linkedin.com/in/francis-wainaina-188550304m" target="_blank" class="text-gray-600 hover:text-blue-600 transition">linkedin.com/in/franciskamau</a>
+                                <a href="https://www.linkedin.com/in/francis-wainaina-188550304/" target="_blank" class="text-gray-600 hover:text-blue-600 transition">linkedin.com/in/francis-wainaina</a>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -535,7 +562,7 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-gray-800">GitHub</h4>
-                                <a href="https://github.com/0Francis" target="_blank" class="text-gray-600 hover:text-blue-600 transition">github.com/franciskamau</a>
+                                <a href="https://github.com/0Francis" target="_blank" class="text-gray-600 hover:text-blue-600 transition">github.com/0Francis</a>
                             </div>
                         </div>
                     </div>
@@ -543,42 +570,50 @@
             <div class="md:w-1/2" data-aos="fade-left">
             <h3 class="text-2xl font-semibold text-gray-800 mb-6">Send Me a Message</h3>
 
-            <form id="contactForm" action="contact.php" method="POST" class="space-y-6">
+            <form id="contactForm" class="space-y-6" novalidate>
+                <!-- Honeypot field (hidden from users, catches bots) -->
+                <div class="hidden" aria-hidden="true">
+                    <label for="_gotcha">Leave this empty</label>
+                    <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+                </div>
+                <!-- Timestamp for anti-spam timing check -->
+                <input type="hidden" id="_timestamp" name="_timestamp" value="">
+
                 <div>
-                <label for="name" class="block text-gray-700 mb-2">Name</label>
-                <input type="text" id="name" name="name"
+                    <label for="name" class="block text-gray-700 mb-2">Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="name" name="name"
                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required>
+                        required aria-required="true" autocomplete="name" maxlength="100">
                 </div>
 
                 <div>
-                <label for="email" class="block text-gray-700 mb-2">Email</label>
-                <input type="email" id="email" name="email"
+                    <label for="email" class="block text-gray-700 mb-2">Email <span class="text-red-500">*</span></label>
+                    <input type="email" id="email" name="email"
                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required>
+                        required aria-required="true" autocomplete="email" maxlength="254">
                 </div>
 
                 <div>
-                <label for="subject" class="block text-gray-700 mb-2">Subject</label>
-                <input type="text" id="subject" name="subject"
+                    <label for="subject" class="block text-gray-700 mb-2">Subject <span class="text-red-500">*</span></label>
+                    <input type="text" id="subject" name="subject"
                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required>
+                        required aria-required="true" maxlength="200">
                 </div>
 
                 <div>
-                <label for="message" class="block text-gray-700 mb-2">Message</label>
-                <textarea id="message" name="message" rows="4"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            required></textarea>
+                    <label for="message" class="block text-gray-700 mb-2">Message <span class="text-red-500">*</span></label>
+                    <textarea id="message" name="message" rows="4"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        required aria-required="true" maxlength="5000"></textarea>
                 </div>
 
                 <button type="submit"
-                        class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition w-full">
-                Send Message
+                    class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition w-full disabled:opacity-50 disabled:cursor-not-allowed">
+                    Send Message
                 </button>
 
                 <!-- Response Message -->
-                <div id="responseMsg" class="mt-4 text-center"></div>
+                <div id="responseMsg" class="mt-4 text-center" role="alert" aria-live="polite"></div>
             </form>
             </div>
             </div>
@@ -591,7 +626,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-6 md:mb-0">
                     <span class="text-xl font-bold gradient-text">Francis Kamau</span>
-                    <p class="text-gray-400 mt-2">Software Engineer & AI Enthusiast</p>
+                    <p class="text-gray-400 mt-2">Product Engineer & Full-Stack Developer</p>
                 </div>
                 <div class="flex space-x-6">
                     <a href="mailto:francis.wainaina@strathmore.edu" class="text-gray-400 hover:text-white transition">
@@ -600,7 +635,7 @@
                     <a href="tel:+254768411928" class="text-gray-400 hover:text-white transition">
                         <i data-feather="phone"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/francis-wainaina-188550304" target="_blank" class="text-gray-400 hover:text-white transition">
+                    <a href="https://www.linkedin.com/in/francis-wainaina-188550304/" target="_blank" class="text-gray-400 hover:text-white transition">
                         <i data-feather="linkedin"></i>
                     </a>
                     <a href="https://github.com/0Francis" target="_blank" class="text-gray-400 hover:text-white transition">
@@ -609,7 +644,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Francis Kamau. All rights reserved.</p>
+                <p>&copy; 2025 Francis Kamau. All rights reserved.</p>
             </div>
         </div>
     </footer>
