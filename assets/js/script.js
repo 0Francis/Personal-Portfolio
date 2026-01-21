@@ -1,10 +1,4 @@
-/**
- * Main Script - Handles AOS, navigation, Feather icons, and animations
- */
-
-// Initialize AOS (Animate On Scroll)
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize AOS
     if (typeof AOS !== 'undefined') {
         AOS.init({
             duration: 800,
@@ -13,25 +7,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initialize Feather icons
     if (typeof feather !== 'undefined') {
         feather.replace();
     }
 
-    // Mobile menu toggle
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
     if (menuBtn && mobileMenu) {
         menuBtn.addEventListener('click', function() {
             mobileMenu.classList.toggle('hidden');
-            // Re-initialize feather icons for mobile menu
             if (typeof feather !== 'undefined') {
                 feather.replace();
             }
         });
 
-        // Close mobile menu when clicking on a link
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', function() {
                 mobileMenu.classList.add('hidden');
@@ -39,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
@@ -54,13 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Typewriter effect for titles
     initTypewriter();
 });
 
-/**
- * Typewriter effect - types out titles one by one
- */
 function initTypewriter() {
     const titles = [
         'Product Engineer',
@@ -76,10 +61,10 @@ function initTypewriter() {
     let isDeleting = false;
     let isPaused = false;
     
-    const typeSpeed = 100;      // Speed of typing
-    const deleteSpeed = 50;     // Speed of deleting
-    const pauseTime = 2000;     // Pause at end of word
-    const pauseBetween = 500;   // Pause between words
+    const typeSpeed = 100;      
+    const deleteSpeed = 50;     
+    const pauseTime = 2000;     
+    const pauseBetween = 500;   
     
     function type() {
         const currentTitle = titles[titleIndex];
@@ -91,7 +76,6 @@ function initTypewriter() {
         }
         
         if (isDeleting) {
-            // Deleting characters
             typewriterElement.textContent = currentTitle.substring(0, charIndex - 1);
             charIndex--;
             
@@ -103,7 +87,6 @@ function initTypewriter() {
             
             setTimeout(type, deleteSpeed);
         } else {
-            // Typing characters
             typewriterElement.textContent = currentTitle.substring(0, charIndex + 1);
             charIndex++;
             
@@ -117,6 +100,5 @@ function initTypewriter() {
         }
     }
     
-    // Start the typewriter effect
     setTimeout(type, 1000);
 }

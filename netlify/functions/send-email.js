@@ -1,25 +1,11 @@
-/**
- * Netlify Function: send-email
- * Sends contact form submissions via Resend API
- * 
- * Required Environment Variables:
- * - RESEND_API_KEY: Your Resend API key
- * - TO_EMAIL: Destination email address
- * - RECAPTCHA_SECRET_KEY: Google reCAPTCHA v3 secret key
- * - URL: Netlify site URL (auto-set by Netlify)
- */
-
 const RESEND_API_URL = 'https://api.resend.com/emails';
 const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
-// Simple in-memory rate limiting (resets on function cold start)
-// For production, use Redis/Upstash for persistent rate limiting
 const rateLimitMap = new Map();
-const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
-const MAX_EMAILS_PER_WINDOW = 3; // Max 3 emails per hour per email address
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000;
+const MAX_EMAILS_PER_WINDOW = 3;
 
 exports.handler = async (event, context) => {
-  // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -28,7 +14,7 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Check required environment variables
+
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   const TO_EMAIL = process.env.TO_EMAIL;
   const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
@@ -43,14 +29,13 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Origin check - allow requests from the Netlify site or localhost for dev
   const origin = event.headers.origin || event.headers.Origin || '';
   const referer = event.headers.referer || event.headers.Referer || '';
   const allowedOrigins = [SITE_URL, 'http://localhost:8888', 'http://localhost:3000', 'http://127.0.0.1:8888'];
   
   const isAllowedOrigin = allowedOrigins.some(allowed => 
     origin.startsWith(allowed) || referer.startsWith(allowed)
-  ) || SITE_URL === ''; // Allow if SITE_URL not set (local dev)
+  ) || SITE_URL === '';
 
   if (!isAllowedOrigin && process.env.NODE_ENV === 'production') {
     console.warn('Blocked request from unauthorized origin:', origin);
@@ -61,7 +46,6 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Parse request body
   let data;
   try {
     data = JSON.parse(event.body);
@@ -75,10 +59,7 @@ exports.handler = async (event, context) => {
 
   const { name, email, subject, message, _gotcha, _timestamp, recaptchaToken } = data;
 
-  // Honeypot check - if _gotcha has a value, it's a bot
   if (_gotcha && _gotcha.trim() !== '') {
-    console.warn('Honeypot triggered, likely bot submission');
-    // Return success to not alert the bot
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -86,13 +67,11 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Timestamp check - form must be filled in at least 3 seconds
   const submissionTime = Date.now();
   const formLoadTime = parseInt(_timestamp, 10) || submissionTime;
   const timeDiff = (submissionTime - formLoadTime) / 1000;
 
   if (timeDiff < 3) {
-    console.warn('Form submitted too quickly:', timeDiff, 'seconds');
     return {
       statusCode: 400,
       headers: { 'Content-Type': 'application/json' },
@@ -100,7 +79,6 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // reCAPTCHA v3 verification
   if (RECAPTCHA_SECRET_KEY && recaptchaToken) {
     try {
       const recaptchaResponse = await fetch(RECAPTCHA_VERIFY_URL, {
@@ -112,7 +90,6 @@ exports.handler = async (event, context) => {
       const recaptchaData = await recaptchaResponse.json();
       
       if (!recaptchaData.success || recaptchaData.score < 0.5) {
-        console.warn('reCAPTCHA failed:', recaptchaData);
         return {
           statusCode: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -121,11 +98,9 @@ exports.handler = async (event, context) => {
       }
     } catch (error) {
       console.error('reCAPTCHA verification error:', error);
-      // Continue without reCAPTCHA if verification fails
     }
   }
 
-  // Validate required fields
   if (!name || !email || !subject || !message) {
     return {
       statusCode: 400,
@@ -134,7 +109,6 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return {
@@ -144,19 +118,16 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Rate limiting by email address
   const emailLower = email.toLowerCase();
   const now = Date.now();
   const userRateData = rateLimitMap.get(emailLower) || { count: 0, firstRequest: now };
   
-  // Reset if window has passed
   if (now - userRateData.firstRequest > RATE_LIMIT_WINDOW) {
     userRateData.count = 0;
     userRateData.firstRequest = now;
   }
   
   if (userRateData.count >= MAX_EMAILS_PER_WINDOW) {
-    console.warn('Rate limit exceeded for:', emailLower);
     return {
       statusCode: 429,
       headers: { 'Content-Type': 'application/json' },
@@ -164,17 +135,15 @@ exports.handler = async (event, context) => {
     };
   }
   
-  // Increment count
   userRateData.count++;
   rateLimitMap.set(emailLower, userRateData);
 
-  // Sanitize inputs (comprehensive XSS prevention)
   const sanitize = (str) => {
     return str
-      .replace(/[<>]/g, '') // Remove angle brackets
-      .replace(/javascript:/gi, '') // Remove javascript: protocol
-      .replace(/on\w+=/gi, '') // Remove event handlers
-      .replace(/data:/gi, '') // Remove data: protocol
+      .replace(/[<>]/g, '')
+      .replace(/javascript:/gi, '')
+      .replace(/on\w+=/gi, '')
+      .replace(/data:/gi, '')
       .trim()
       .substring(0, 1000);
   };
@@ -183,7 +152,6 @@ exports.handler = async (event, context) => {
   const cleanSubject = sanitize(subject);
   const cleanMessage = sanitize(message).substring(0, 5000);
   
-  // Escape HTML for display
   const escapeHtml = (str) => {
     return str
       .replace(/&/g, '&amp;')
@@ -193,11 +161,9 @@ exports.handler = async (event, context) => {
       .replace(/'/g, '&#039;');
   };
 
-  // Get client IP for logging
   const clientIP = event.headers['x-forwarded-for'] || event.headers['client-ip'] || 'unknown';
   const timestamp = new Date().toISOString();
 
-  // Send email via Resend API
   try {
     const response = await fetch(RESEND_API_URL, {
       method: 'POST',
@@ -245,7 +211,6 @@ Source: francis-kamau.netlify.app
 </head>
 <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6;">
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-    <!-- Header -->
     <tr>
       <td style="background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); padding: 30px; text-align: center;">
         <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600;">🌐 Portfolio Contact</h1>
@@ -253,10 +218,8 @@ Source: francis-kamau.netlify.app
       </td>
     </tr>
     
-    <!-- Content -->
     <tr>
       <td style="padding: 30px;">
-        <!-- Sender Info -->
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 25px; background-color: #f8fafc; border-radius: 8px; padding: 20px;">
           <tr>
             <td>
@@ -269,7 +232,6 @@ Source: francis-kamau.netlify.app
           </tr>
         </table>
         
-        <!-- Subject -->
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 25px;">
           <tr>
             <td>
@@ -279,7 +241,6 @@ Source: francis-kamau.netlify.app
           </tr>
         </table>
         
-        <!-- Message -->
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 25px;">
           <tr>
             <td>
@@ -291,7 +252,6 @@ Source: francis-kamau.netlify.app
           </tr>
         </table>
         
-        <!-- Reply Button -->
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td style="text-align: center;">
@@ -305,7 +265,6 @@ Source: francis-kamau.netlify.app
       </td>
     </tr>
     
-    <!-- Footer -->
     <tr>
       <td style="background-color: #f8fafc; padding: 20px; border-top: 1px solid #e2e8f0;">
         <table width="100%" cellpadding="0" cellspacing="0">

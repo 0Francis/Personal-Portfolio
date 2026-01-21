@@ -1,9 +1,3 @@
-/**
- * Contact Form Handler
- * Submits form data to Netlify Function with anti-spam measures and reCAPTCHA v3
- */
-
-// reCAPTCHA site key
 const RECAPTCHA_SITE_KEY = '6LeC7SksAAAAAFWlhfvN7cjF3VkmFhLoQKE_ryM5';
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const submitBtn = form?.querySelector('button[type="submit"]');
   const timestampField = document.getElementById("_timestamp");
 
-  // Set timestamp when form loads (for anti-spam timing check)
   if (timestampField) {
     timestampField.value = Date.now().toString();
   }
@@ -25,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Disable submit button to prevent double submission
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending...";
@@ -33,24 +25,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     responseMsg.innerHTML = `<p class="text-gray-500">Verifying and sending message...</p>`;
 
-    // Collect form data as JSON
     const formData = {
       name: form.querySelector("#name")?.value?.trim() || "",
       email: form.querySelector("#email")?.value?.trim() || "",
       subject: form.querySelector("#subject")?.value?.trim() || "",
       message: form.querySelector("#message")?.value?.trim() || "",
-      _gotcha: form.querySelector("#_gotcha")?.value || "", // Honeypot
+      _gotcha: form.querySelector("#_gotcha")?.value || "",
       _timestamp: timestampField?.value || Date.now().toString(),
     };
 
-    // Client-side validation
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
       responseMsg.innerHTML = `<p class="text-red-600 font-medium">Please fill in all fields.</p>`;
       resetButton();
       return;
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       responseMsg.innerHTML = `<p class="text-red-600 font-medium">Please enter a valid email address.</p>`;
@@ -58,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Get reCAPTCHA token if available
     try {
       if (typeof grecaptcha !== 'undefined' && RECAPTCHA_SITE_KEY !== '6LcXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX') {
         const recaptchaToken = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' });
@@ -66,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (recaptchaError) {
       console.warn("reCAPTCHA not available:", recaptchaError);
-      // Continue without reCAPTCHA
     }
 
     try {
@@ -92,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `;
         form.reset();
-        // Reset timestamp for next submission
         if (timestampField) {
           timestampField.value = Date.now().toString();
         }
